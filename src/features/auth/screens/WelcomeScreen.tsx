@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  View, Text, StyleSheet, Image, Dimensions
+  View, Text, StyleSheet, Image, Dimensions, ScrollView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
@@ -90,7 +90,12 @@ export const WelcomeScreen: React.FC<Props> = ({ onLogin }) => {
           <FloatingBubble key={i} {...b} />
         ))}
 
-        <View style={s.inner}>
+        <ScrollView
+          style={s.scroll}
+          contentContainerStyle={s.inner}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+        >
 
           {/* Lang switcher */}
           <View style={s.langBtn}>
@@ -181,7 +186,7 @@ export const WelcomeScreen: React.FC<Props> = ({ onLogin }) => {
             </View>
           </Animated.View>
 
-        </View>
+        </ScrollView>
       </LinearGradient>
     </SafeAreaView>
   );
@@ -190,8 +195,9 @@ export const WelcomeScreen: React.FC<Props> = ({ onLogin }) => {
 const s = StyleSheet.create({
   safe:     { flex: 1, backgroundColor: '#043A50' },
   gradient: { flex: 1 },
+  scroll:   { flex: 1 },
   inner:    {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 16,
     paddingBottom: 28,

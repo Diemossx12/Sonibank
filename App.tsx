@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
 const rootStyle = StyleSheet.create({
   container: {
     flex: 1,
-    ...(Platform.OS === 'web' ? { minHeight: '100vh' as any } : {}),
+    ...(Platform.OS === 'web' ? { height: '100vh' as any } : {}),
   },
 });
 

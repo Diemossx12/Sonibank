@@ -32,6 +32,8 @@ const TABS_CONFIG = [
   { key: 'profile'   as AppTab, icon: 'user',        label: 'Profil'    },
 ];
 
+const isWeb = Platform.OS === 'web';
+
 const TabItem: React.FC<{
   config: typeof TABS_CONFIG[0];
   isActive: boolean;
@@ -41,6 +43,7 @@ const TabItem: React.FC<{
   const opacity = useSharedValue(isActive ? 1 : 0.5);
 
   useEffect(() => {
+    if (isWeb) return;
     scale.value   = withSpring(isActive ? 1.1 : 1, { damping: 15, stiffness: 300 });
     opacity.value = withTiming(isActive ? 1 : 0.45, { duration: 200 });
   }, [isActive]);
@@ -50,15 +53,20 @@ const TabItem: React.FC<{
     opacity:   opacity.value,
   }));
 
+  const Wrapper = isWeb ? View : Animated.View;
+  const wrapperStyle = isWeb
+    ? [tb2.tabInner, { opacity: isActive ? 1 : 0.5 }]
+    : [tb2.tabInner, animStyle];
+
   return (
     <TouchableOpacity
       style={tb2.tabItem}
       onPress={onPress}
       activeOpacity={1}
     >
-      <Animated.View style={[tb2.tabInner, animStyle]}>
+      <Wrapper style={wrapperStyle}>
         {isActive && (
-          <Animated.View style={tb2.activePill} />
+          <View style={tb2.activePill} />
         )}
         <Icon
           name={config.icon}
@@ -69,7 +77,7 @@ const TabItem: React.FC<{
         <Text style={[tb2.label, isActive && tb2.labelActive]}>
           {config.label}
         </Text>
-      </Animated.View>
+      </Wrapper>
     </TouchableOpacity>
   );
 };
